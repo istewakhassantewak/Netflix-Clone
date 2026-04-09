@@ -27,7 +27,7 @@ body {
     margin: 0;
     background-color: var(--bg);
     color: var(--text);
-    font-family: "Netflix Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     line-height: 1.4;
     text-rendering: optimizeLegibility;
 }
@@ -85,6 +85,18 @@ input {
 .brand img {
     display: block;
     width: clamp(6rem, 14vw, 8.25rem);
+}
+
+.brand {
+    text-decoration: none;
+}
+
+.brand-text {
+    display: inline-block;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    color: var(--brand);
 }
 
 .nav-actions {
@@ -607,25 +619,4 @@ input {
         transition-duration: 0.01ms !important;
         scroll-behavior: auto !important;
     }
-}
-
-@font-face {
-    font-family: "Netflix Sans";
-    font-weight: 400;
-    font-display: swap;
-    src: url("https://assets.nflxext.com/ffe/siteui/fonts/netflix-sans/v3/NetflixSans_W_Rg.woff2") format("woff2");
-}
-
-@font-face {
-    font-family: "Netflix Sans";
-    font-weight: 700;
-    font-display: swap;
-    src: url("https://assets.nflxext.com/ffe/siteui/fonts/netflix-sans/v3/NetflixSans_W_Md.woff2") format("woff2");
-}
-
-@font-face {
-    font-family: "Netflix Sans";
-    font-weight: 900;
-    font-display: swap;
-    src: url("https://assets.nflxext.com/ffe/siteui/fonts/netflix-sans/v3/NetflixSans_W_Blk.woff2") format("woff2");
 }

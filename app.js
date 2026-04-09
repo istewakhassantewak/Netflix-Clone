@@ -1,11 +1,17 @@
 "use strict";
 
 const App = (() => {
-    const STORAGE_KEY = "netflixClone.email";
-    const USERS_KEY = "netflixClone.authUsers";
-    const SESSION_KEY = "netflixClone.session";
+    const STORAGE_KEY = "movieDekhi.email";
+    const USERS_KEY = "movieDekhi.authUsers";
+    const SESSION_KEY = "movieDekhi.session";
     const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-    const I18N_KEY = "netflixClone.language";
+    const I18N_KEY = "movieDekhi.language";
+    const LEGACY_KEYS = {
+        email: "netflixClone.email",
+        users: "netflixClone.authUsers",
+        session: "netflixClone.session",
+        language: "netflixClone.language"
+    };
     const TRANSLATIONS = {
         en: {
             languageButton: "English",
@@ -91,6 +97,17 @@ const App = (() => {
             }
         }
     };
+    const readStorageWithLegacy = (primaryKey, legacyKey) => {
+        const currentValue = safeStorage.get(primaryKey);
+        if (currentValue !== null) return currentValue;
+        const legacyValue = safeStorage.get(legacyKey);
+        if (legacyValue !== null) {
+            safeStorage.set(primaryKey, legacyValue);
+            safeStorage.remove(legacyKey);
+            return legacyValue;
+        }
+        return null;
+    };
 
     const normalizeEmail = (value) => value.trim().toLowerCase();
 
@@ -135,7 +152,7 @@ const App = (() => {
         return toHex(digest);
     };
 
-    const getUsers = () => parseJson(safeStorage.get(USERS_KEY), []);
+    const getUsers = () => parseJson(readStorageWithLegacy(USERS_KEY, LEGACY_KEYS.users), []);
     const setUsers = (users) => safeStorage.set(USERS_KEY, JSON.stringify(users));
 
     let toastTimer = null;
@@ -156,7 +173,7 @@ const App = (() => {
         const { form, emailInput, emailFeedback, toast } = elements;
         if (!form || !emailInput || !emailFeedback) return;
 
-        const storedEmail = safeStorage.get(STORAGE_KEY);
+        const storedEmail = readStorageWithLegacy(STORAGE_KEY, LEGACY_KEYS.email);
         if (storedEmail && validateEmail(storedEmail)) {
             emailInput.value = storedEmail;
             setFeedback(emailFeedback, "Saved email loaded.", "success");
@@ -360,9 +377,9 @@ const App = (() => {
         }
     };
 
-    const getSessionUser = () => safeStorage.get(SESSION_KEY);
+    const getSessionUser = () => readStorageWithLegacy(SESSION_KEY, LEGACY_KEYS.session);
     const clearSession = () => safeStorage.remove(SESSION_KEY);
-    const getLanguage = () => safeStorage.get(I18N_KEY) || "en";
+    const getLanguage = () => readStorageWithLegacy(I18N_KEY, LEGACY_KEYS.language) || "en";
     const setLanguage = (value) => safeStorage.set(I18N_KEY, value);
     let pendingAuthAction = null;
 

@@ -1,2 +1,2 @@
-# Netflix-Clone
+# MovieDekhi
 
