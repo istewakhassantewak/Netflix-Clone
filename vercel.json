@@ -4,11 +4,32 @@
     {
       "src": "server.js",
       "use": "@vercel/node"
+    },
+    {
+      "src": "index.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "style.css",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "app.js",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "Assets/**",
+      "use": "@vercel/static"
     }
   ],
   "functions": {
     "server.js": {
-      "includeFiles": "index.html,style.css,app.js,Assets/**"
+      "includeFiles": [
+        "index.html",
+        "style.css",
+        "app.js",
+        "Assets/**"
+      ]
     }
   },
   "routes": [
